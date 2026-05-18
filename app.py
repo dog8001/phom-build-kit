@@ -16,10 +16,10 @@ COMPARISON_RUNS_PATH = ROOT / "comparison_runs"
 DOTENV_PATH = ROOT / ".env"
 
 MODE_TO_MODEL = {
-    "API low": "gpt-5.5-thinking-low",
-    "API medium": "gpt-5.5-thinking",
-    "API high": "gpt-5.5-thinking-high",
-    "API xhigh": "gpt-5.5-thinking-xhigh",
+    "API low": "low",
+    "API medium": "medium",
+    "API high": "high",
+    "API xhigh": "xhigh",
 }
 
 
@@ -88,19 +88,39 @@ def list_compare_files() -> list[Path]:
     return files
 
 
-def run_build(module_id: str, mode: str) -> tuple[int, str, str]:
+def is_valid_model_name(model_name: str) -> bool:
+    if not model_name:
+        return False
+    allowed = set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._")
+    return all(ch in allowed for ch in model_name)
+
+
+def validate_config(path: Path) -> list[tuple[str, bool, str]]:
+    env_values = parse_dotenv(path)
+    model = env_values.get("PHOM_MODEL", "")
+    api_key = env_values.get("OPENAI_API_KEY", "")
+    checks = [
+        ("env file loaded", path.exists(), f"Path: {path}"),
+        ("valid model name", is_valid_model_name(model), f"PHOM_MODEL={model or '(unset)'}"),
+        ("API config looks correct", bool(api_key and api_key.startswith("sk-")), "OPENAI_API_KEY present and shaped like an API key"),
+    ]
+    return checks
+
+
+def run_build(module_id: str, mode: str) -> tuple[int, str, str, str]:
     cmd = [sys.executable, str(ROOT / "scripts" / "build_module.py"), module_id]
     env = os.environ.copy()
 
     if mode == "dry-run":
         cmd.append("--dry-run")
     else:
-        model_name = MODE_TO_MODEL[mode]
-        upsert_dotenv(DOTENV_PATH, "PHOM_MODEL", model_name)
-        env["PHOM_MODEL"] = model_name
+        reasoning_effort = MODE_TO_MODEL[mode]
+        upsert_dotenv(DOTENV_PATH, "PHOM_REASONING_EFFORT", reasoning_effort)
+        env["PHOM_REASONING_EFFORT"] = reasoning_effort
 
     proc = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, env=env)
-    return proc.returncode, proc.stdout, proc.stderr
+    debug_cmd = " ".join(cmd)
+    return proc.returncode, proc.stdout, proc.stderr, debug_cmd
 
 
 def unified_diff(a: str, b: str, a_label: str, b_label: str) -> str:
@@ -148,6 +168,9 @@ def main() -> None:
         st.subheader("Selected module metadata")
         st.json(selected_module)
         st.write(f"**Selected reasoning mode:** `{selected_mode}`")
+        preview_cmd = [sys.executable, str(ROOT / "scripts" / "build_module.py"), selected_module_id]
+        if selected_mode == "dry-run":
+            preview_cmd.append("--dry-run")
 
         col1, col2 = st.columns(2)
         run_action = None
@@ -158,7 +181,9 @@ def main() -> None:
 
         if run_action:
             with st.spinner(f"Running {run_action} for {selected_module_id}..."):
-                code, stdout, stderr = run_build(selected_module_id, run_action)
+                code, stdout, stderr, debug_cmd = run_build(selected_module_id, run_action)
+            st.markdown("### Debug")
+            st.code(debug_cmd, language="bash")
             st.caption("Command output")
             st.code(stdout or "<no stdout>")
             if stderr:
@@ -169,7 +194,17 @@ def main() -> None:
                 st.error(f"Build failed (exit code {code}).")
 
         env_values = parse_dotenv(DOTENV_PATH)
-        st.caption(f"Current PHOM_MODEL in .env: `{env_values.get('PHOM_MODEL', '(unset)')}`")
+        st.markdown("### Debug")
+        st.write(f"- current PHOM_MODEL: `{env_values.get('PHOM_MODEL', '(unset)')}`")
+        st.write(f"- current PHOM_REASONING_EFFORT: `{env_values.get('PHOM_REASONING_EFFORT', '(unset)')}`")
+        st.write(f"- exact subprocess command: `{ ' '.join(preview_cmd) }`")
+        if st.button("Validate Config"):
+            checks = validate_config(DOTENV_PATH)
+            for label, ok, detail in checks:
+                if ok:
+                    st.success(f"{label}: {detail}")
+                else:
+                    st.error(f"{label}: {detail}")
         st.info("No API keys are shown or required in this UI.")
 
     with tab_review:
