@@ -205,6 +205,7 @@ def check_login() -> bool:
 
 def render_questions_page(modules: list[dict], module_lookup: dict[str, dict]) -> None:
     st.header("Questions")
+    ANSWERS_DIR.mkdir(parents=True, exist_ok=True)
     module_ids = [m["id"] for m in modules]
     module_id = st.selectbox("Select module/domain", module_ids, key="q_module")
 
@@ -223,22 +224,40 @@ def render_questions_page(modules: list[dict], module_lookup: dict[str, dict]) -
         st.text_area("Question source", value=text, height=240)
         return
 
-    answer_file = ANSWERS_DIR / f"{module_id}_answers.json"
-    existing = {}
-    if answer_file.exists():
-        existing = json.loads(answer_file.read_text(encoding="utf-8"))
+    answer_file = ANSWERS_DIR / f"{module_id}_answers.md"
+    existing_markdown = read_text(answer_file)
+    timestamp = datetime.now().isoformat(timespec="seconds")
 
     st.write(f"Loaded {len(questions)} questions from `{question_path.relative_to(ROOT)}`")
-    answers: dict[str, str] = dict(existing)
+    answers: dict[str, str] = {}
     for idx, q in enumerate(questions, start=1):
         key = f"ans_{module_id}_{idx}"
-        answers[q] = st.text_area(f"Q{idx}: {q}", value=existing.get(q, ""), key=key, height=100)
+        answers[q] = st.text_area(f"Q{idx}: {q}", key=key, height=100)
+
+    notes_key = f"notes_{module_id}"
+    general_notes = st.text_area("General notes", key=notes_key, height=120)
 
     if st.button("Save answers"):
-        ANSWERS_DIR.mkdir(parents=True, exist_ok=True)
-        filtered = {k: v for k, v in answers.items() if v.strip()}
-        answer_file.write_text(json.dumps(filtered, indent=2), encoding="utf-8")
-        st.success(f"Saved {len(filtered)} partial/full answers to {answer_file.relative_to(ROOT)}")
+        entries: list[str] = [f"# Answers — {module_id}", f"## {timestamp}"]
+        for q in questions:
+            ans = answers.get(q, "").strip()
+            if not ans:
+                continue
+            entries.extend(["### Question", q, "### Answer", ans])
+        if general_notes.strip():
+            entries.extend(["### Question", "General notes", "### Answer", general_notes.strip()])
+        new_block = "\n\n".join(entries).strip() + "\n"
+        if existing_markdown.strip():
+            output = existing_markdown.rstrip() + "\n\n---\n\n" + new_block
+        else:
+            output = new_block
+        answer_file.write_text(output, encoding="utf-8")
+        st.success(f"Saved answers to {answer_file.relative_to(ROOT)}")
+        st.rerun()
+
+    if existing_markdown.strip():
+        st.subheader("Saved answers")
+        st.markdown(existing_markdown)
 
 
 def main() -> None:
