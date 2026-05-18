@@ -105,3 +105,13 @@ Output:
 6. Continue to the next module.
 
 Do not try to perfect all modules at once.
+
+
+## Run the Streamlit control panel
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+streamlit run app.py
+```
