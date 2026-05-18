@@ -410,7 +410,6 @@ def render_questions_page(modules: list[dict], module_lookup: dict[str, dict]) -
                     append_user_domain_module(new_domain.strip(), new_module.strip())
                     st.session_state["q_domain"] = new_domain.strip()
                     st.session_state["q_module"] = new_module.strip()
-                    st.session_state["q_target_mode"] = "Existing domain/module"
                     st.success(f"Created target in {USER_DOMAINS_PATH.relative_to(ROOT)}")
                     st.rerun()
 
