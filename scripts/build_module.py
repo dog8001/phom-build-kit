@@ -36,13 +36,20 @@ def find_module(module_id: str) -> dict:
 
 
 def call_model(client: OpenAI, model: str, system_prompt: str, user_prompt: str) -> str:
-    response = client.responses.create(
-        model=model,
-        input=[
+    reasoning_effort = os.getenv("PHOM_REASONING_EFFORT")
+
+    kwargs = {
+        "model": model,
+        "input": [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt},
         ],
-    )
+    }
+
+    if reasoning_effort:
+        kwargs["reasoning"] = {"effort": reasoning_effort}
+
+    response = client.responses.create(**kwargs)
     return response.output_text
 
 

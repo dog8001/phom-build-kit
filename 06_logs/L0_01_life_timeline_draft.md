@@ -2,11 +2,15 @@
 
 ## 1. Purpose of this module
 
-This module creates a **first-pass life timeline** for Pierre Carlsson using the available seed evidence.
+Create a first-pass, evidence-based life timeline for Pierre that identifies:
 
-Because the current evidence base contains **very little dated biographical material**, this is not yet a full chronological biography. It is instead a **relative developmental timeline**: formative periods, current/known operating arenas, identity shifts, recurring life themes, and suspected turning points.
+- formative periods  
+- likely turning points  
+- identity shifts  
+- recurring life themes  
+- current phase hypothesis  
 
-The goal is to establish a usable Layer 0 evidence map that can later be corrected with dates, events, decisions, and counter-evidence.
+This module is **not a full biography**. The available evidence is strong enough to build a **thematic adult-life timeline**, but weak for exact chronology, childhood formation, dates, causality, and sequence.
 
 ---
 
@@ -14,195 +18,87 @@ The goal is to establish a usable Layer 0 evidence map that can later be correct
 
 ### Evidence sources available
 
-| Source | Content | Trust level | Notes |
+| Source | Status | Trust level | Notes |
 |---|---:|---:|---|
-| Known Context Seed v1 | Main evidence source | Medium overall | Contains prior remembered context, user-provided profiles, recurring themes, current projects |
-| Existing profiles | MBTI, DISC, Big Five, vocational inventory | High for reported values; medium for interpretation | Values are user-provided, interpretations are not proof |
-| Evidence Base raw section | Empty | None | No additional raw timeline facts provided |
-| Text corpus | Empty | None | No representative written excerpts included yet |
-| Observed behavioral patterns from seed | System-building across WHER, QI, trading, politics, data workflows, AAF | Medium | Repetition across domains increases confidence, but still seed-based |
-| Current project context | QI, WHER, PHOM, political campaign, trading systems | Medium-high | Specific enough to be useful, but still needs chronology |
+| Known Context Seed v1 | Available | Medium overall | Main source for this module. Contains remembered prior context, user-provided profiles, and inferred patterns. |
+| Formal/semi-formal profiles | Available inside seed | High that Pierre provided them; medium/low for interpretation | MBTI, DISC, Big Five, vocational inventory. Useful but not decisive. |
+| Raw Evidence Base | Empty | N/A | No dated life events, decisions, work history, education, or third-party evidence provided. |
+| Text Corpus | Empty | N/A | No representative written texts available yet. |
+| Existing profiles | Available | Medium-high | Repeats formal profile data. |
 
-### Important limitation
+### Important evidence limitations
 
-The current seed does **not** provide:
+- No birth year, age, education history, childhood data, work chronology, relationship chronology, major losses, health history, or dated career timeline.
+- No timestamped artifacts: CV, journals, emails, project history, trading records, campaign records, or family timeline.
+- Therefore, the module uses **phase-based sequencing** rather than exact chronological sequencing.
 
-- birth year / age
-- childhood context
-- education history
-- employment history
-- relationship history
-- dates of major life events
-- dates of parenthood
-- dates of trading development
-- dates of political involvement
-- dates of QI / WHER origin
-- concrete failures or successes with timestamps
+### Evidence notation
 
-Therefore, any “timeline” below is partly a **structure awaiting date anchoring**, not a definitive chronology.
+- **Harder fact:** Explicitly present in the seed, especially user-provided profiles or current projects.
+- **Interpretation:** Plausible meaning drawn from repeated patterns.
+- **Inference:** Likely but not confirmed.
+- **Unknown:** Insufficient evidence.
 
 ---
 
 ## 3. Core findings
 
-### 3.1 Most supported finding: Pierre’s life pattern is domain-diverse but structurally consistent
+### 3.1 Timeline confidence map
 
-Across very different domains — health, economics, trading, politics, permaculture, QI, WHER, automation, psychology, education, relationship thinking — the recurring pattern appears to be:
-
-> **Abstract principle → framework → architecture → implementation → iteration.**
-
-**Confidence: 75%**
-
-This is one of the strongest timeline-level findings because it appears repeatedly across multiple named projects and interests.
-
----
-
-### 3.2 The visible life arc is not random exploration; it looks like convergence toward system architecture
-
-The known material suggests Pierre has moved through multiple domains, but not as disconnected hobbies. They seem to be feeding a larger identity:
-
-- system-builder
-- strategist
-- analyst-actioner
-- practical philosopher
-- architect of tools for human development
-- autonomy-seeking creator
-- father concerned with long-term conditions
-- public/political actor seeking municipal improvement
-- trader with analytical edge but execution/state-transition challenges
-
-**Interpretation:** Pierre’s life seems to be moving from **personal competence and domain exploration** toward **integrated systems intended to help self, children, community, and potentially broader humanity/planet**.
-
-**Confidence: 65%**
-
-This is plausible but not yet proven without dated events and actual outputs.
+| Area | Confidence | Reason |
+|---|---:|---|
+| Current domains of involvement: QI/WHER, trading, politics, family, systems, business/finance | Medium-high | Repeatedly represented in seed. |
+| Pierre as systems-oriented / analytical / architecture-driven | Medium-high | Supported by profiles and many repeated project types. |
+| Chronological order of life events | Low | Almost no dated evidence. |
+| Childhood/formative origins | Very low | No evidence yet. |
+| Causality between events and identity shifts | Low-medium | Some plausible links, but not directly evidenced. |
+| Current identity themes | Medium | Supported by stated motivations, current projects, and recurring frameworks. |
 
 ---
 
-### 3.3 The major identity shift appears to be from “capable individual operator” toward “builder of living systems”
+### 3.2 Provisional life timeline — phase-based, not date-based
 
-Known projects such as QI, WHER, PHOM, Agent Architecture Framework, political campaign systems, trading systems, data pipelines and automation workflows suggest a shift beyond single-task execution into **meta-system creation**.
+Because dates are missing, this timeline should be read as a **developmental sequence hypothesis**, not a verified biography.
 
-Possible identity sequence:
-
-1. **Analytical / capable / responsible individual**
-2. **Cross-domain learner and optimizer**
-3. **System-builder and architect**
-4. **Father / future-condition creator**
-5. **Public/political actor**
-6. **Builder of human-development operating systems**
-
-**Confidence: 60%**
-
-This is inferred from project patterns, not from a dated self-report.
+| Phase | Evidence anchor | Likely formative role | Possible identity shift | Recurring themes | Confidence |
+|---|---|---|---|---|---:|
+| 1. Baseline analytical/systemic orientation | MBTI INTJ; DISC high Compliance/Dominance; Big Five: high Conscientiousness, medium-high Openness, low Agreeableness; vocational Analyst 92%, Actioner 80% | Establishes a likely preference for structure, logic, systems, standards, and independent judgment | “I understand and improve reality through models, patterns, and systems.” | Analysis, standards, strategy, truth over harmony, autonomy | 70% |
+| 2. Multi-domain competence accumulation | Interests/skills across health, economics, finance, psychology, nature/gardening, education, process development, Tai Chi, Qi Gong, trading, Python, Pine Script, politics, permaculture metrics | Broad exposure gives Pierre raw material for cross-domain synthesis | From specialist/learner toward integrator | Curiosity, cross-domain pattern recognition, practical experimentation | 65% |
+| 3. Financial safety / autonomy pressure becomes central | WHER priority: Wealth first; stated needs for economic safety, freedom, financial independence/security; trading/business interest | Wealth appears less like status-seeking and more like autonomy, stress reduction, and future protection | “Money is not only money; it is freedom, safety, optionality, and reduced threat.” | Freedom, safety, self-reliance, future conditions | 75% |
+| 4. Fatherhood / intergenerational responsibility | Repeated desire for quality time with children, healthy routines, activities, fostering children’s development, realizing own and children’s potential | Moves life purpose from self-optimization toward stewardship and legacy | “My life design must serve both me and my children’s future.” | Responsibility, long-term care, potential, routines, health | 75% |
+| 5. Trading as high-pressure execution laboratory | Seed states strong reversal detection system; known challenges: front-running, not flattening, emotional overrides, failure to switch with trend | Exposes gap between analysis and execution under state pressure | “Knowing is not the same as acting correctly during transition states.” | Pattern detection, state friction, execution discipline, asymmetry | 65% for pattern; lower for objective trading edge |
+| 6. Architecture consolidation: WHER / QI / AAF / frameworks | Repeated systems: WHER, QI, Agent Architecture Framework, universal principles, permaculture metrics, campaign workflows, automation | Broad life domains compressed into reusable architectures | From problem-solver to system architect | Abstraction, compression, canonical structure, reusable principles | 80% |
+| 7. Public/political externalization | Tingsryd kan mer, campaign sites, municipal analysis, majority-winning framing, citizen input | Systems thinking applied to civic reality and public accountability | “My models must survive contact with citizens, institutions, communication, and trust.” | Leadership, public utility, persuasion, responsibility, listening | 70% |
+| 8. Current self-modeling / PHOM phase | Current request: build PHOM as evidence-based human operating model; concern about state awareness, falsifiability, anti-overbuilding | The system-builder turns the modeling lens onto himself | “I need a living operating model of myself to reduce blind spots and improve decisions.” | Self-understanding, anti-sabotage, evidence, predictive behavior, integrity | 85% |
 
 ---
 
-### 3.4 Fatherhood appears to have become a major organizing force
+### 3.3 Likely major turning points
 
-The seed repeatedly references:
+These are **hypotheses**, not verified events.
 
-- enjoying time with children
-- fostering children’s development
-- healthy eating with children
-- routines that benefit children long-term
-- realizing his and his children’s potential
-- safeguarding future well-being
-
-This suggests that children are not merely part of life context; they are central to Pierre’s current utility function and planning horizon.
-
-**Confidence: 80%**
-
-The exact chronology and impact of parenthood are unknown.
+| Turning point hypothesis | Why it matters | Evidence | Confidence |
+|---|---|---|---:|
+| Fatherhood increased the importance of legacy, routines, health, and future conditions | Children appear repeatedly in life vision and purpose | Seed repeatedly references children, quality time, development, healthy eating, future potential | 70% |
+| Financial insecurity or concern became a central organizing pressure | Wealth is first in WHER priority; economic safety and financial independence are repeated needs | WHER order and stated motivations | 75% |
+| Trading revealed an analysis/execution split | Seed explicitly identifies strong detection but execution frictions | Trading profile seed | 65% |
+| QI/WHER crystallized Pierre’s cross-domain thinking into a central architecture | Many domains are compressed into WHER/QI and 16 meta-properties | QI/WHER project context | 80% |
+| Politics turned abstract/systemic thinking into public-facing responsibility | Political campaign requires communication, persuasion, citizen input, practical constraint | Tingsryd context | 70% |
+| PHOM marks a meta-turn: modeling the operator, not only the external system | Current module request and PHOM architecture | Present evidence | 85% |
 
 ---
 
-### 3.5 Financial security and freedom are recurring life drivers
+### 3.4 Recurring themes across the timeline
 
-The seed repeatedly references:
-
-- economic safety
-- financial independence/security
-- reducing stress linked to financial security
-- owning/building a business
-- more freedom in life
-- life without limitations
-- WHER priority order: Wealth first
-
-This suggests that wealth is not only about status or consumption. It appears tied to:
-
-- autonomy
-- reduction of stress
-- ability to build
-- future protection
-- family security
-- freedom to act according to integrity
-
-**Confidence: 80%**
-
-Unknown: whether this originated from scarcity, responsibility, ambition, family needs, prior instability, or philosophical preference.
-
----
-
-### 3.6 There is a recurring tension between architecture quality and shipping/progress
-
-The seed identifies or demonstrates:
-
-- perfectionism
-- analysis paralysis
-- over-refinement
-- overbuilding before shipping
-- concern over source integrity and canonical drift
-- sensitivity to foundational errors
-- need for validation
-
-Timeline implication:
-
-Pierre’s development may include repeated phases where high standards and architectural precision produce excellent systems — but also risk slowing execution.
-
-**Confidence: 75%**
-
-This is a pattern hypothesis, not yet tied to specific historical episodes.
-
----
-
-### 3.7 Politics appears to be a current or recent expansion of Pierre’s system-building into public reality
-
-The political/campaign context includes:
-
-- Tingsryd kan mer
-- tingsrydkanmer.se
-- pierrecarlsson.se
-- broad appeal with goal of 50%+ support
-- majority-winning framing
-- citizen input
-- municipal development
-
-This suggests a shift from internal/personal/systemic modeling into **public persuasion, leadership, implementation, and responsibility under constraints**.
-
-**Confidence: 70%**
-
-Unknown: when this began, why it began, what role Pierre holds, and how much actual public leadership has occurred.
-
----
-
-### 3.8 Trading appears to reveal a sharp split between analysis and state-dependent execution
-
-The seed states Pierre has a very strong reversal detection system, with known execution challenges:
-
-- front-running signals
-- positional asymmetry
-- not flattening at signals
-- emotional overrides during transition zones
-- failure to switch with new trend despite knowing it
-
-Timeline implication:
-
-Trading may be a major “laboratory” where Pierre learned that knowing is not acting, and that high cognition does not automatically solve state-transition behavior.
-
-**Confidence: 70%**
-
-The claimed detection edge needs independent performance evidence before being treated as hard fact.
+| Theme | Evidence | Interpretation | Confidence |
+|---|---|---|---:|
+| Freedom through systems | Autonomy, financial independence, QI/WHER, business ownership, trading, automation | Pierre appears to seek freedom not by escaping structure, but by building better structure | 75% |
+| Responsibility under complexity | Children, politics, QI mission, future well-being | Responsibility is not only personal; it extends to family, society, and systems | 70% |
+| Analysis-action tension | Analyst 92%, Actioner 80%, trading execution frictions, over-refinement risks | Pierre combines analysis and action, but the transition from knowing to acting may be a key friction point | 75% |
+| Foundation sensitivity | Concern over source integrity, canonical drift, validation, system foundations | Strong standards protect quality but may delay release | 75% |
+| Autonomy vs rigid schedule | Preference for adaptive structure; rigid plans can become guilt-producing/counterproductive | Pierre likely needs living protocols more than fixed calendars | 70% |
+| Practical universalism | QI/WHER, humanity/planet mission, political work, systems for individuals | Pierre tends to look for principles general enough to scale but practical enough to use | 70% |
+| Meaningful depth over social volume | Limited network; desire for intelligent/self-aware partner; meaningful relationships over shallow social noise | Social preference appears selective, not absent | 65% |
 
 ---
 
@@ -210,246 +106,206 @@ The claimed detection edge needs independent performance evidence before being t
 
 | Claim | Evidence | Confidence % | Counter-evidence / limits | When true | When false / uncertain |
 |---|---|---:|---|---|---|
-| Pierre’s life shows recurring system-builder behavior across domains | Repeated projects: WHER, QI, AAF, trading systems, political campaign workflows, data pipelines, permaculture metrics | 80% | Seed-based; no full project archive or dated output list | When evaluating repeated cognitive/work pattern | If many projects were superficial, short-lived, or mostly conceptual without implementation |
-| Pierre’s timeline is currently date-poor but theme-rich | Evidence base lacks dates; seed contains many themes/projects | 95% | Could be corrected if Pierre adds timeline data | For current module version | False once chronological evidence is added |
-| Pierre’s current identity is strongly tied to building systems for human development | QI, PHOM, WHER, stated mission to help individuals/humanity/planet | 75% | Could be aspirational narrative more than actual behavior | When looking at stated projects and architecture work | If actual time/energy mostly goes elsewhere |
-| Fatherhood is a central current life organizer | Repeated desire for quality time, children’s development, routines, food, potential | 80% | No dates or observed parenting behavior | In current values/life vision | Unknown how this has shaped earlier decisions |
-| Financial security is a major driver | WHER priority: Wealth first; desire for economic safety, independence, stress reduction | 85% | Wealth may be instrumental rather than core; origin unknown | In planning, business, trading, freedom motives | If actual decisions repeatedly sacrifice financial security for other values |
-| Pierre prefers autonomy and adaptive structure over rigid scheduling | Seed states autonomy preference and difficulty with rigid schedules | 75% | Needs behavioral examples; could depend on life phase | Under complex/dynamic conditions | In high-stakes projects where external structure improves output |
-| Pierre’s life arc suggests movement from individual competence to public/systemic responsibility | QI, political campaign, children, humanity/planet mission | 65% | Could be simultaneous domains rather than sequence | In current/recent adult phase | If political/social efforts are temporary or peripheral |
-| Trading exposes execution-state friction despite analytical strength | Seed lists reversal system and execution challenges | 70% | Trading performance data absent; “100% certainty” claim unverified | In transition zones, reversals, high-emotion market conditions | If actual logs show disciplined execution or weaker analytical edge |
-| Pierre has a recurring architecture-quality vs shipping-speed tension | Seed lists perfectionism, over-refinement, validation concern, canonical drift sensitivity | 75% | Could be project-specific or rational due diligence | In complex foundational systems | False if recent behavior shows consistent MVP shipping and bounded refinement |
-| Pierre’s values include integrity, authenticity, justice/equality and usefulness | Seed states mission and justice/equality motivation | 75% | Values need decision evidence under cost/conflict | In mission design and public-facing systems | Weak if decisions prioritize status, control, or profit over integrity when tested |
-| Pierre’s timeline includes strong cross-domain integration | Interests/skills span health, economics, psychology, nature, politics, systems, trading, coding | 80% | Breadth may not equal integration; could be parallel interests | In QI/WHER/system projects | False if domains remain disconnected in actual work |
-| Pierre’s identity may include “practical philosopher / architect” | Vocational: Analyst 92, Visionary 73, Inventor 69; projects compress principles into frameworks | 65% | Label is interpretive; may over-romanticize | When describing mode of work | If Pierre primarily identifies as operator, entrepreneur, parent, or politician instead |
+| Pierre’s current life timeline is better represented as overlapping developmental phases than as a clean chronological sequence. | Evidence lacks dates but contains many domain/project patterns. | 85% | Could be revised if a dated biography shows a clearer sequence. | When building from current seed only. | Once dated life events are added. |
+| Pierre has a stable analytical/system-building orientation. | INTJ provided; DISC high C/D; Big Five high Conscientiousness; vocational Analyst 92%; repeated systems: WHER, QI, AAF, trading, politics workflows. | 80% | Personality tests are imperfect; could be a learned work style more than trait. | In complex, strategic, model-building contexts. | In emotionally saturated, exhausted, or highly social contexts. |
+| Pierre’s life arc appears to move from domain learning toward architecture/platform building. | Many interests plus repeated compression into WHER/QI/meta-properties/frameworks. | 75% | Chronology unknown; maybe system-building was present from the beginning. | When interpreting QI/WHER and current PHOM work. | If early life evidence shows a different core driver. |
+| Wealth/economic safety is a central current driver. | WHER priority order: Wealth first; stated need for economic safety, financial independence/security, reduced financial stress. | 80% | “Wealth first” may be situational, not permanent. | During stress, planning, business, trading, family protection. | In states where health, children, relationship, or meaning dominate. |
+| Fatherhood is a major organizing factor in Pierre’s life vision. | Repeated references to children, quality time, healthy routines, fostering development, realizing their potential. | 75% | No details on children’s ages, custody, actual routines, or historical change after becoming a father. | In long-term life design and values. | If daily behavior shows children are less central than stated. |
+| Trading functions as an execution laboratory for Pierre’s analysis-action gap. | Seed states strong reversal detection and specific execution problems: front-running, not flattening, emotional overrides, trend-switch failure. | 70% | Objective trading edge unverified; claims need logs. | Under market transition zones and emotional pressure. | If trade data shows execution is consistently disciplined. |
+| Pierre is prone to over-refinement / overbuilding when foundations feel uncertain. | Seed lists perfectionism, analysis paralysis, over-refinement, canonical drift concerns, high sensitivity to foundation errors. | 75% | Could be rational quality control in complex systems, not dysfunction. | In architecture, frameworks, canonical documents, high-stakes systems. | In low-stakes execution or when deadlines force shipping. |
+| Pierre prefers adaptive structure over rigid scheduling. | Seed says rigid daily/weekly/monthly schedules have historically felt governing, guilt-producing, or counterproductive. | 70% | Could depend on health, family schedule, work context, or tool design. | When schedule feels externally controlling or too static. | When structure is self-authored, flexible, and tied to meaningful outcomes. |
+| Political work is an externalization of Pierre’s system-building into civic reality. | Tingsryd kan mer, campaign sites, majority-winning framing, citizen input, municipal analysis. | 70% | Could be tactical or temporary rather than identity-level. | When politics is used to improve systems and conditions. | If political engagement is mainly circumstantial or short-lived. |
+| Pierre’s stated mission includes doing good beyond himself. | Explicit intention to create systems that do good for individuals, humanity, and the planet; integrity/authenticity emphasis. | 80% | Stated mission needs behavioral validation over time. | In QI, public work, education, long-term architecture. | If actual decisions prioritize ego/status/profit against stated mission. |
+| Pierre’s relationship/social pattern appears selective rather than broadly extroverted. | Extraversion 5; limited network; desire for intelligent/self-aware partner; meaningful relationships over shallow social noise. | 65% | Social history unknown; may vary strongly by environment. | In choosing friends, partner, communities. | In campaign mode or high-purpose group contexts where broad contact is useful. |
+| Current PHOM work represents a meta-phase: Pierre modeling himself as the operating system behind his systems. | Current module request; PHOM purpose; state-aware/falsifiable architecture. | 85% | Could be a temporary project rather than durable identity shift. | If PHOM becomes used for decisions, patterns, and anti-sabotage. | If it remains a document exercise without behavioral feedback loops. |
 
 ---
 
 ## 5. Trait / skill / adaptation / narrative distinction
 
-This section separates what looks like stable disposition, acquired ability, situational adaptation, and self-story.
-
-| Pattern | Category | Evidence | Confidence | Notes |
-|---|---|---:|---:|---|
-| Analytical orientation | Trait + skill | Analyst 92%, INTJ, Big Five/seed patterns, repeated systems work | 80% | Likely both natural preference and trained capability |
-| High conscientiousness / responsibility | Trait | Big Five Conscientiousness 8; self-described responsible/reliable; family/future focus | 75% | Needs behavioral evidence under fatigue/stress |
-| Low agreeableness / truth-over-harmony tendency | Trait/adaptation | Big Five Agreeableness 3; “can become demanding when systems or logic are weak” | 70% | Could be value-based rigor, not social coldness |
-| System architecture | Skill | WHER, QI, AAF, trading systems, workflows | 80% | Strong repeated evidence of architectural thinking |
-| Cross-domain synthesis | Skill + trait | Health/economics/psychology/nature/trading/politics integrated into models | 75% | Strength if grounded; risk if overgeneralized |
-| Perfectionism / over-refinement | Adaptation + possible trait expression | Seed risk patterns: overbuilding, validation need, canonical drift sensitivity | 70% | May be rational quality control in high-integrity projects |
-| Financial security focus | Adaptation + value | Wealth priority, economic safety, stress reduction | 80% | Unknown origin: scarcity, responsibility, ambition, autonomy need |
-| Autonomy need | Trait + value | Repeated desire for freedom, independent work, adaptive structure | 80% | Likely stable |
-| “Builder of systems that help humanity/planet” | Narrative + mission | Explicit mission statement | 70% | Needs outcome evidence; can be true but still partly aspirational |
-| Public leader / politician | Role/identity shift | Tingsryd campaign context | 65% | Needs timeline and actual role evidence |
-| Trader with analytical edge | Skill claim | Seed says elite reversal detection; lists execution issues | 60% | Requires trade logs/performance data |
-| Father as future-condition builder | Role + value | Repeated child/family future references | 80% | Strong as value; behavior evidence not yet shown |
-
-### Key distinction
-
-Pierre’s **system-building** appears more evidence-based than the specific identity narrative around being a world-helping architect. The narrative may be true, but it needs output evidence over time.
+| Pattern | Best classification | Evidence | Confidence | Notes |
+|---|---|---|---:|---|
+| Analytical/systemic orientation | Trait + skill | Profiles and repeated system-building projects | 80% | Likely both dispositional and developed. |
+| High standards / precision sensitivity | Trait + adaptation | DISC high Compliance; concern with validation, source integrity, canonical drift | 75% | Can be strength or bottleneck depending on state. |
+| Strategic long-range thinking | Trait/skill | INTJ profile; QI/WHER; political majority strategy; long-term family/future framing | 70% | Needs behavioral evidence from decisions. |
+| Cross-domain synthesis | Skill | Many domains compressed into frameworks | 75% | Strongly suggested but actual quality of synthesis needs artifact review. |
+| Autonomy need | Trait/value/adaptation | Freedom, autonomy, business ownership, adaptive schedules | 75% | Could be intensified by past constraint or financial stress. |
+| Financial safety drive | Adaptation/value | Wealth first, economic safety, financial independence, stress reduction | 80% | May reflect current life conditions more than permanent personality. |
+| Father/steward identity | Role/value | Children repeatedly referenced in life vision | 75% | Needs timeline and behavioral evidence. |
+| Trading execution friction | State-dependent adaptation/pattern | Specific execution challenges named | 70% | Not a global trait; likely strongest under transition pressure. |
+| Political leadership | Skill/role | Campaign work, municipal analysis, communication | 65% | Current role evidence exists; depth/history unknown. |
+| “INTJ/system architect” identity | Narrative shorthand | Profile + current work | 60% | Useful but dangerous if treated as destiny or full explanation. |
+| Mission to help humanity/planet | Value/narrative | Explicit stated intention | 75% | Needs behavioral validation under tradeoffs. |
+| Perfectionism/overbuilding | Adaptation/risk pattern | Seed identifies over-refinement, analysis paralysis, validation sensitivity | 75% | Could also be appropriate rigor in high-stakes systems. |
 
 ---
 
 ## 6. State dependence
 
-Pierre’s life timeline should not be read as one static personality. The seed explicitly requires state awareness. For this module, the relevant states are:
+Pierre’s timeline should not be interpreted as a fixed personality story. The same life themes likely express differently across states.
 
-| State / mode | Likely timeline expression | Evidence strength | Risk |
-|---|---|---:|---|
-| Builder | Creates frameworks, systems, architectures, diagnostics, workflows | High | Overbuilding before shipping |
-| Strategist | Long-range planning, political framing, WHER/QI architecture, trading logic | High | Excess abstraction or delayed action |
-| Explorer | Broad interest across health, economics, psychology, nature, tech, politics | Medium-high | Too many parallel domains |
-| Father | Future protection, children’s development, routines, health, quality time | Medium-high | Guilt if ideals exceed available energy |
-| Politician | Campaign communication, citizen input, majority-building | Medium | Public compromise may conflict with precision/integrity |
-| Trader | Reversal detection, signal interpretation, execution under uncertainty | Medium | State-transition failures, emotional overrides |
-| Flow | High synthesis, compression, architecture generation | Medium | Can produce elegant but untested systems |
-| Stressed | Financial security focus, urgency, control needs may increase | Medium | Short-term pressure may distort long-term architecture |
-| Exhausted | Rigid plans may fail; body-guided pacing needed | Medium | Self-criticism, inconsistency, abandoned routines |
-| Threatened | Demand for logic/competence may harden; low tolerance for weak systems | Low-medium | Relationship/political friction |
-
-### State-dependent interpretation
-
-Some patterns that may look like “personality flaws” may actually be **state effects**:
-
-- Over-control may increase when financial security feels threatened.
-- Over-refinement may increase when source integrity feels at risk.
-- Low agreeableness may appear more strongly when systems are incoherent or people are careless with consequences.
-- Trading execution failures may cluster in transition zones rather than in calm analysis.
+| State/mode | Likely timeline expression | Risk | Useful interpretation |
+|---|---|---|---|
+| Builder | Turns experience into systems, frameworks, architectures, tools | Overbuilding; foundation loops | Most QI/PHOM work likely emerges here. |
+| Strategist | Compresses complexity into long-range positioning | Excess abstraction; delayed tactical action | Useful for politics, business, QI direction. |
+| Explorer | Gathers domains, ideas, inputs, cross-pollination | Diffusion; too many inputs | Explains broad interests and multi-domain timeline. |
+| Father | Prioritizes children, routines, health, future security | Guilt if standards exceed real capacity | Central for life design and meaning. |
+| Politician | Simplifies systems into public language and citizen relevance | Message dilution or over-calculation | Tests whether frameworks survive public reality. |
+| Trader | Pattern recognition under pressure | Execution-state failures during transitions | Reveals knowing/acting asymmetry. |
+| Flow | High synthesis, high production, strong integration | May ignore recovery or practical limits | Best state for architecture and creative output. |
+| Stressed | Wealth/security concerns may dominate; control-seeking rises | Over-refinement, rigidity, urgency, emotional overrides | Important context for trading and financial decisions. |
+| Exhausted | Lower tolerance for complexity and social load | Avoidance, simplification, schedule collapse | Timeline should not over-attribute exhausted behavior to identity. |
+| Threatened | Standards and independence may harden | Defensive certainty, distrust, refusal to delegate | Need protocols, not self-judgment. |
 
 ---
 
 ## 7. Practical implications
 
-### 7.1 Timeline reconstruction should start with dated anchors, not personality theory
+1. **Do not build Pierre’s life story as a neat heroic arc yet.**  
+   The evidence supports recurring themes, not a verified biography.
 
-The next useful evidence would be:
+2. **Current phase hypothesis:**  
+   Pierre appears to be in an **integration/externalization phase**: combining QI/WHER, politics, trading, fatherhood, financial safety, and PHOM into a more coherent operating model.
 
-1. birth year / current age
-2. education timeline
-3. career/work timeline
-4. relationship/family milestones
-5. date of becoming a father
-6. origin date of WHER
-7. origin date of QI
-8. trading start date and major phases
-9. political involvement start date
-10. major failures / losses / turning points
-11. major successes / proof-of-work outputs
+3. **Main practical tension:**  
+   Pierre’s life pattern suggests a recurring conflict between:
+   - building correct, elegant, foundational systems  
+   - shipping usable outputs under real-world constraints  
 
-Without these, PHOM risks becoming an elegant pattern model without enough historical grounding.
+4. **Timeline should be upgraded with artifacts, not memory alone.**  
+   Add:
+   - dated project history  
+   - major decisions  
+   - failures/successes  
+   - financial turning points  
+   - children/family timeline  
+   - campaign milestones  
+   - trading logs  
+   - written texts  
 
----
+5. **Avoid misusing personality profiles.**  
+   INTJ, DISC, Big Five, and vocational results are useful clues, but they should not replace behavioral evidence.
 
-### 7.2 Pierre’s life should be modeled as convergence, unless counter-evidence appears
+6. **Use this timeline as a decision filter.**  
+   When Pierre starts a new project, ask:
+   - Which life phase does this serve?
+   - Does it support wealth, children, health, relationship, QI, politics, or self-modeling?
+   - Is it a core continuation or another abstraction branch?
+   - Is it shipping something real, or refining foundations again?
 
-Current evidence suggests many domains may be converging into QI/WHER/PHOM-like architecture.
-
-Practical use:
-
-- Use timeline events to ask: “Did this domain become part of a larger system?”
-- Track which interests persisted and integrated vs disappeared.
-- Separate durable architecture from temporary fascination.
-
----
-
-### 7.3 Watch for “architecture as identity protection”
-
-Possible risk:
-
-When a person becomes highly identified with system architecture, improving the architecture can become safer than exposing outputs to reality.
-
-This is not proven, but the seed contains enough warning signs:
-
-- over-refinement
-- perfectionism
-- validation loops
-- canonical drift concern
-- strong integrity standards
-
-Practical countermeasure:
-
-- Every major system should have a “minimal reality contact” version.
-- Timeline should log shipping events, not just design phases.
-
----
-
-### 7.4 Fatherhood and financial security should be treated as high-weight timeline forces
-
-Current evidence suggests many decisions may be downstream of:
-
-- children’s future
-- freedom
-- economic safety
-- reduced stress
-- meaningful creation
-
-These should be treated as candidate explanatory variables when mapping major decisions.
-
----
-
-### 7.5 Trading may be important beyond money
-
-Trading appears to be a psychologically revealing domain because it tests:
-
-- cognition vs execution
-- prediction vs adaptation
-- discipline under emotional pressure
-- response to reversals
-- ability to switch position when reality changes
-
-Practical implication:
-
-Trading logs could become high-quality behavioral evidence for PHOM, especially for state transitions.
+7. **Current anti-sabotage implication:**  
+   The highest-risk zone is probably not idea generation. It is transition:
+   - analysis → action  
+   - architecture → MVP  
+   - signal → execution  
+   - values → routines  
+   - public vision → citizen-understandable message  
 
 ---
 
 ## 8. Open questions for Pierre
 
-### A. Basic chronology
+### Chronology basics
 
-1. What is your birth year?
-2. Where did you grow up?
-3. What were the major childhood/adolescent conditions that shaped you?
-4. What was your education path?
-5. What was your work/career path by year or phase?
-6. When did you become a father?
-7. What are the major relationship/family milestones?
+1. Birth year / current age?
+2. Key places lived?
+3. Education history?
+4. Main work/career roles by year?
+5. Major businesses, jobs, or projects in sequence?
 
-### B. Formative periods
+### Formative background
 
-8. What periods most shaped your independence/autonomy need?
-9. What periods shaped your financial security focus?
-10. When did you first notice your system-building tendency?
-11. Was there an early “I see systems others don’t see” moment?
-12. Were there periods of instability, scarcity, betrayal, illness, burnout, or major responsibility?
+6. What early experiences shaped your need for autonomy?
+7. What shaped your sensitivity to fairness, justice, or integrity?
+8. Were you system-building already as a child/teenager, or did that emerge later?
+9. What early experiences shaped your relationship to money and safety?
 
-### C. Turning points
+### Family and fatherhood
 
-13. What are the top 5 decisions that changed your life direction?
-14. What failures changed how you operate?
-15. What successes confirmed your strengths?
-16. When did WHER originate?
-17. When did QI originate?
-18. When did PHOM-style self-modeling become important?
-19. When did political involvement begin, and why?
-20. When did trading become serious?
+10. When did you become a father?
+11. How did fatherhood change your priorities, behavior, or identity?
+12. What are the main constraints around time with children?
+13. Which routines with children have worked, and which failed?
 
-### D. Identity shifts
+### Wealth / work / security
 
-21. Did you ever strongly identify as something before “system-builder”?
-22. What identity have you outgrown?
-23. What identity are you resisting?
-24. What identity feels most real now: father, builder, trader, politician, entrepreneur, philosopher, analyst, something else?
-25. What role do you want less of in the future?
+14. What were the biggest financial turning points in your life?
+15. Have there been periods of financial stress that still shape decisions today?
+16. What does “financial independence” concretely mean for you?
+17. What business-building attempts have you made, and what happened?
 
-### E. Evidence and falsification
+### Trading
 
-26. What projects have actually shipped?
-27. What projects remained overbuilt or unfinished?
-28. Where have you repeatedly acted against your stated values?
-29. Where have you surprised yourself positively?
-30. What would someone close to you say is missing from this timeline?
+18. When did trading begin?
+19. What evidence supports the reversal detection edge?
+20. What are the largest trading mistakes or execution failures?
+21. Under what state conditions do you execute best/worst?
+
+### QI / WHER / systems
+
+22. When did WHER first appear?
+23. When did QI become a central architecture?
+24. What problem was QI originally trying to solve?
+25. Which frameworks did you abandon, and why?
+26. What is the oldest recurring idea still alive in your systems?
+
+### Politics / public life
+
+27. When did political engagement begin?
+28. Why Tingsryd?
+29. What triggered the move from private/systemic thinking into public campaign work?
+30. What has politics taught you about people, communication, and reality?
+
+### Relationships / network
+
+31. What has shaped your preference for meaningful relationships over broad social volume?
+32. What relationship patterns have repeated?
+33. When do you over-solve for others?
+34. What kind of partner actually changes your operating state?
+
+### Health / state history
+
+35. Any major health events, burnout periods, injuries, or energy crashes?
+36. What practices reliably improve your state?
+37. What destroys rhythm fastest?
+38. How have Tai Chi / Qi Gong influenced your operating model?
+
+### Identity shifts
+
+39. What are the 5–10 moments where you became a different version of yourself?
+40. Which old identity are you still carrying that may no longer be useful?
 
 ---
 
 ## 9. What would falsify or revise this module
 
-This module should be revised if any of the following evidence appears:
+This module should be revised if evidence shows:
 
-| Current claim | Falsifying/revising evidence |
-|---|---|
-| Pierre’s life shows strong system-builder continuity | Timeline shows many unrelated interests without integration or sustained output |
-| Financial security is a major driver | Major life decisions repeatedly prioritized adventure, ideology, status, comfort, or relationships over security |
-| Fatherhood is central | Actual time allocation and decisions show children are not a major organizing force |
-| Pierre is moving toward public/systemic responsibility | Political activity is minor, temporary, or externally driven |
-| Over-refinement is a real risk | Project history shows consistent rapid shipping, low rework, and low perfectionism |
-| Trading reveals state-transition friction | Trade logs show disciplined signal execution and no recurring emotional override pattern |
-| Mission/integrity is central | High-stakes decisions show repeated compromise of integrity for convenience, approval, money, or control |
-| Autonomy is stable need | Pierre consistently thrives under externally imposed structure and prefers low-agency roles |
-| Timeline is convergence toward QI/WHER-like architecture | QI/WHER are temporary projects rather than organizing centers |
-| Cross-domain synthesis is a strength | Outputs show superficial analogies rather than functional integration |
+1. **The system-builder pattern is recent**, not lifelong or recurring.
+2. **Financial safety is not historically central**, but only a temporary concern.
+3. **Fatherhood is less behaviorally central** than stated life vision suggests.
+4. **Trading data does not support the claimed analytical edge** or shows execution is not the main issue.
+5. **Politics is circumstantial**, not a meaningful externalization of Pierre’s values/systems.
+6. **Rigid schedules have worked well** under certain conditions, contradicting the current adaptive-structure hypothesis.
+7. **Overbuilding is not actually a recurring blocker**, but an overemphasized narrative.
+8. **Third-party evidence describes Pierre differently** from his self-model.
+9. **Text corpus shows a different dominant theme**, such as belonging, recognition, conflict, grief, spirituality, or status.
+10. **Dated chronology reveals different causality**, e.g. politics shaped QI rather than QI shaping politics.
 
 ---
 
 ## 10. Summary
 
-The current Layer 0.1 timeline is **evidence-limited but pattern-rich**.
+This first-pass life timeline is **usable but incomplete**.
 
-Hardest-supported facts are mostly profile/project facts:
+The strongest evidence supports Pierre as a **systems-oriented, analytical, autonomy-seeking builder** currently integrating several major life domains: wealth/security, children/fatherhood, QI/WHER, trading, politics, health, relationships, and self-modeling through PHOM.
 
-- Pierre reports INTJ, high Compliance/Dominance, high Conscientiousness, low Agreeableness.
-- He has strong interests and active work across systems, health, economics, politics, trading, automation, psychology, nature, and human development.
-- He is building or has built frameworks such as WHER, QI, PHOM, AAF, trading systems, political/campaign systems and data workflows.
-- He explicitly values freedom, economic safety, meaningful creation, integrity, children’s development, and future conditions.
+The likely developmental arc is:
 
-Main first-pass timeline interpretation:
+> multi-domain learning → cross-domain synthesis → system architecture → practical application under pressure → self-modeling of the operator behind the systems.
 
-> Pierre’s life appears to be moving from broad competence and cross-domain exploration toward integrated system architecture, with fatherhood, financial security, autonomy, integrity, and public/future responsibility becoming central organizing forces.
+The most important recurring tension is:
 
-Main caution:
+> strong ability to perceive, model, and architect complexity, combined with risk around transition from model to action, especially when stakes, uncertainty, or state pressure are high.
 
-> The model currently lacks dated life events. Without chronology, it can identify recurring themes but cannot yet prove causality, sequence, or true formative origin.
-
-Most important next step:
-
-> Add a dated timeline of life phases, major decisions, successes, failures, fatherhood/family events, trading phases, QI/WHER origin, and political involvement. This will convert the current pattern map into an actual evidence-based life timeline.
+The weakest part of this module is actual chronology. Dates, life events, project history, and artifacts are needed before this becomes a true timeline rather than a thematic developmental map.
