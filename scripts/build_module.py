@@ -116,7 +116,8 @@ No API call was made. This file confirms wiring and output paths.
     critic_prompt = read(ROOT / "02_prompts" / "module_critic_prompt.md").replace("{module_title}", module["title"])
     reviser_prompt = read(ROOT / "02_prompts" / "module_reviser_prompt.md")
 
-    user_prompt = f"""
+    user_prompt_override = os.getenv("PHOM_USER_PROMPT_OVERRIDE", "").strip()
+    user_prompt = user_prompt_override or f"""
 Current module:
 ID: {module['id']}
 Title: {module['title']}
