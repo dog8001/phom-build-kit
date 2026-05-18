@@ -16,7 +16,12 @@ ROOT = Path(__file__).resolve().parent
 MODULE_LIST_PATH = ROOT / "00_architecture" / "PHOM_Module_List_v1.json"
 COMPARISON_RUNS_PATH = ROOT / "comparison_runs"
 QUESTIONS_DIR = ROOT / "04_review_questions"
+QUESTION_BANK_DIR = ROOT / "10_question_bank"
+QUESTION_BANK_PATH = QUESTION_BANK_DIR / "question_bank.json"
 ANSWERS_DIR = ROOT / "07_answers"
+ANSWERS_JSONL_PATH = ANSWERS_DIR / "answers.jsonl"
+USER_DATASET_DIR = ROOT / "11_user_dataset"
+USER_DATASET_PATH = USER_DATASET_DIR / "user_dataset.md"
 RUN_OVERRIDES_DIR = ROOT / "08_run_overrides"
 EVIDENCE_FILE = ROOT / "01_input" / "Pierre_Evidence_Base.md"
 MASTER_DIR = ROOT / "05_master"
@@ -203,108 +208,144 @@ def check_login() -> bool:
     return False
 
 
+def _slugify(text: str) -> str:
+    clean = re.sub(r"[^a-zA-Z0-9]+", "_", text.strip().lower()).strip("_")
+    return clean or "general"
+
+
+def _extract_questions_from_text(text: str) -> list[str]:
+    candidates: list[str] = []
+    for raw in text.splitlines():
+        line = raw.strip()
+        if not line:
+            continue
+        normalized = re.sub(r"^#{1,6}\s*", "", line).strip()
+        normalized = re.sub(r"^[-*+]\s+", "", normalized).strip()
+        normalized = re.sub(r"^\d+[.)]\s+", "", normalized).strip()
+        if not normalized:
+            continue
+        looks_question = normalized.endswith("?")
+        numbered = bool(re.match(r"^\d+[.)]\s+", line))
+        bullet = bool(re.match(r"^[-*+]\s+", line))
+        heading = line.startswith("#")
+        if looks_question or numbered or bullet or (heading and "?" in normalized):
+            candidates.append(normalized)
+    seen: set[str] = set()
+    deduped: list[str] = []
+    for c in candidates:
+        key = c.lower()
+        if key in seen:
+            continue
+        seen.add(key)
+        deduped.append(c)
+    return deduped
+
+
+def save_question_bank(question_bank: list[dict]) -> None:
+    QUESTION_BANK_DIR.mkdir(parents=True, exist_ok=True)
+    QUESTION_BANK_PATH.write_text(json.dumps(question_bank, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
+def load_question_bank(modules: list[dict]) -> list[dict]:
+    QUESTION_BANK_DIR.mkdir(parents=True, exist_ok=True)
+    if QUESTION_BANK_PATH.exists():
+        try:
+            existing = json.loads(QUESTION_BANK_PATH.read_text(encoding="utf-8") or "[]")
+            if isinstance(existing, list) and existing:
+                return existing
+        except json.JSONDecodeError:
+            pass
+
+    bootstrapped: list[dict] = []
+    for module in modules:
+        module_id = module["id"]
+        domain = module_id.split("_")[0] if "_" in module_id else module_id
+        review_path = ROOT / module["review_file"]
+        for idx, q in enumerate(_extract_questions_from_text(read_text(review_path)), start=1):
+            q_id = f"{module_id}_{idx:03d}_{_slugify(q)[:24]}"
+            bootstrapped.append({
+                "question_id": q_id,
+                "domain": domain,
+                "module_id": module_id,
+                "question": q,
+                "why_needed": "Bootstrapped from review questions",
+                "priority": "medium",
+                "status": "open",
+            })
+
+    save_question_bank(bootstrapped)
+    return bootstrapped
+
+
+def append_answer(answer: dict) -> None:
+    ANSWERS_DIR.mkdir(parents=True, exist_ok=True)
+    with ANSWERS_JSONL_PATH.open("a", encoding="utf-8") as f:
+        f.write(json.dumps(answer, ensure_ascii=False) + "\n")
+
+
+def append_user_dataset_entry(domain: str, module_id: str, entry: str) -> None:
+    USER_DATASET_DIR.mkdir(parents=True, exist_ok=True)
+    stamp = datetime.now().isoformat(timespec="seconds")
+    block = f"\n\n## {stamp} | domain={domain} | module={module_id}\n\n{entry.strip()}\n"
+    with USER_DATASET_PATH.open("a", encoding="utf-8") as f:
+        f.write(block)
+
+
 def render_questions_page(modules: list[dict], module_lookup: dict[str, dict]) -> None:
     st.header("Questions")
-    ANSWERS_DIR.mkdir(parents=True, exist_ok=True)
     module_ids = [m["id"] for m in modules]
-    module_id = st.selectbox("Select module/domain", module_ids, key="q_module")
+    domains = sorted({(m["id"].split("_")[0] if "_" in m["id"] else m["id"]) for m in modules})
 
-    question_path = QUESTIONS_DIR / f"{module_id}_questions.md"
-    if not question_path.exists():
-        fallback = module_lookup[module_id]["review_file"]
-        question_path = ROOT / fallback
+    question_bank = load_question_bank(modules)
 
-    text = read_text(question_path)
-    if not text:
-        st.info("No question file found for this module.")
-        return
+    selected_domain = st.selectbox("Select domain", domains, key="q_domain")
+    domain_modules = [m for m in module_ids if (m.split("_")[0] if "_" in m else m) == selected_domain]
+    selected_module = st.selectbox("Select module", domain_modules, key="q_module")
 
-    questions = [ln.strip("- ").strip() for ln in text.splitlines() if ln.strip().startswith("-")]
-    if not questions:
-        st.text_area("Question source", value=text, height=240)
-        return
+    filtered = [q for q in question_bank if q.get("domain") == selected_domain and q.get("module_id") == selected_module]
+    st.write(f"Loaded {len(filtered)} questions from `10_question_bank/question_bank.json`")
 
-    answer_file = ANSWERS_DIR / f"{module_id}_answers.md"
-    existing_markdown = read_text(answer_file)
-
-    def parse_latest_answers(markdown: str) -> tuple[dict[str, str], str]:
-        if not markdown.strip():
-            return {}, ""
-
-        blocks = [blk.strip() for blk in markdown.split("\n---\n") if blk.strip()]
-        latest = blocks[-1] if blocks else ""
-        lines = latest.splitlines()
-        parsed: dict[str, str] = {}
-        current_question: str | None = None
-        current_answer: list[str] = []
-        mode: str | None = None
-        timestamp_line = ""
-
-        for line in lines:
-            stripped = line.strip()
-            if stripped.startswith("## ") and not timestamp_line:
-                timestamp_line = stripped.removeprefix("## ").strip()
+    saved_answers: list[dict] = []
+    if ANSWERS_JSONL_PATH.exists():
+        for line in ANSWERS_JSONL_PATH.read_text(encoding="utf-8").splitlines():
+            line=line.strip()
+            if not line:
                 continue
-            if stripped == "### Question":
-                if current_question is not None:
-                    parsed[current_question] = "\n".join(current_answer).strip()
-                current_question = None
-                current_answer = []
-                mode = "question"
+            try:
+                row=json.loads(line)
+            except json.JSONDecodeError:
                 continue
-            if stripped == "### Answer":
-                mode = "answer"
-                continue
-            if mode == "question" and current_question is None and stripped:
-                current_question = stripped
-                continue
-            if mode == "answer":
-                current_answer.append(line)
+            if row.get("module_id")==selected_module and row.get("domain")==selected_domain:
+                saved_answers.append(row)
 
-        if current_question is not None:
-            parsed[current_question] = "\n".join(current_answer).strip()
-        return parsed, timestamp_line
+    for q in filtered:
+        qid=q["question_id"]
+        st.markdown(f"**{qid}** — {q['question']}")
+        st.caption(f"why_needed: {q.get('why_needed','')} | priority: {q.get('priority','')} | status: {q.get('status','')}")
+        key=f"ans_{qid}"
+        answer_text=st.text_area("Answer", key=key, height=100)
+        if st.button(f"Save answer: {qid}", key=f"save_{qid}"):
+            append_answer({"timestamp": datetime.now().isoformat(timespec="seconds"), "type": "question_answer", "question_id": qid, "domain": selected_domain, "module_id": selected_module, "question": q["question"], "answer": answer_text.strip()})
+            st.success("Answer saved to 07_answers/answers.jsonl")
 
-    latest_answers, latest_timestamp = parse_latest_answers(existing_markdown)
-    timestamp = datetime.now().isoformat(timespec="seconds")
-
-    st.write(f"Loaded {len(questions)} questions from `{question_path.relative_to(ROOT)}`")
-    answers: dict[str, str] = {}
-    for idx, q in enumerate(questions, start=1):
-        key = f"ans_{module_id}_{idx}"
-        if key not in st.session_state:
-            st.session_state[key] = latest_answers.get(q, "")
-        answers[q] = st.text_area(f"Q{idx}: {q}", key=key, height=100)
-
-    notes_key = f"notes_{module_id}"
-    if notes_key not in st.session_state:
-        st.session_state[notes_key] = latest_answers.get("General notes", "")
-    general_notes = st.text_area("General notes", key=notes_key, height=120)
-
-    if latest_timestamp:
-        st.caption(f"Latest saved block: {latest_timestamp}")
-
-    if st.button("Save answers"):
-        entries: list[str] = [f"# Answers — {module_id}", f"## {timestamp}"]
-        for q in questions:
-            ans = answers.get(q, "").strip()
-            if not ans:
-                continue
-            entries.extend(["### Question", q, "### Answer", ans])
-        if general_notes.strip():
-            entries.extend(["### Question", "General notes", "### Answer", general_notes.strip()])
-        new_block = "\n\n".join(entries).strip() + "\n"
-        if existing_markdown.strip():
-            output = existing_markdown.rstrip() + "\n\n---\n\n" + new_block
+    st.subheader("Manual contribution")
+    manual_text = st.text_area("Add custom question or data", key="manual_entry", height=140)
+    if st.button("Save manual entry"):
+        if manual_text.strip():
+            append_user_dataset_entry(selected_domain, selected_module, manual_text)
+            append_answer({"timestamp": datetime.now().isoformat(timespec="seconds"), "type": "manual_entry", "question_id": "manual", "domain": selected_domain, "module_id": selected_module, "question": "manual_entry", "answer": manual_text.strip()})
+            st.success("Manual entry saved to 11_user_dataset/user_dataset.md and 07_answers/answers.jsonl")
         else:
-            output = new_block
-        answer_file.write_text(output, encoding="utf-8")
-        st.success(f"Saved answers to {answer_file.relative_to(ROOT)}")
-        st.rerun()
+            st.warning("Please enter content before saving.")
 
-    if existing_markdown.strip():
-        st.subheader("Saved answers")
-        st.markdown(existing_markdown)
+    st.button("Synchronize & optimize dataset", disabled=True, help="Future step: AI maps answers and user data into existing modules or proposes new clusters.")
+
+    st.subheader("Saved answers for selected module")
+    if saved_answers:
+        st.json(saved_answers)
+    else:
+        st.info("No saved answers yet for this domain/module.")
+
 
 
 def main() -> None:
