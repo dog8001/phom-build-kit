@@ -301,6 +301,26 @@ def load_saved_answers(domain: str, module_id: str) -> list[dict]:
     return saved_answers
 
 
+def latest_answers_by_question(domain: str, module_id: str) -> dict[str, str]:
+    latest: dict[str, str] = {}
+    for row in load_saved_answers(domain, module_id):
+        qid = row.get("question_id")
+        answer = (row.get("answer") or "").strip()
+        if isinstance(qid, str) and answer:
+            latest[qid] = answer
+    return latest
+
+
+def answer_already_saved(domain: str, module_id: str, question_id: str, answer: str) -> bool:
+    normalized = answer.strip()
+    if not normalized:
+        return False
+    for row in load_saved_answers(domain, module_id):
+        if row.get("question_id") == question_id and (row.get("answer") or "").strip() == normalized:
+            return True
+    return False
+
+
 def make_custom_question_id(module_id: str) -> str:
     safe_module = re.sub(r"[^a-zA-Z0-9_]+", "_", module_id.strip().lower()).strip("_") or "module"
     ts = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
@@ -421,6 +441,7 @@ def render_questions_page(modules: list[dict], module_lookup: dict[str, dict]) -
         st.warning("Create or select a target domain/module to continue.")
 
     filtered = [q for q in question_bank if q.get("domain") == selected_domain and q.get("module_id") == selected_module]
+    saved_answer_map = latest_answers_by_question(selected_domain, selected_module) if selected_domain and selected_module else {}
     st.write(f"Loaded {len(filtered)} questions from `10_question_bank/question_bank.json`")
 
     for q in filtered:
@@ -428,10 +449,18 @@ def render_questions_page(modules: list[dict], module_lookup: dict[str, dict]) -
         st.markdown(f"**{qid}** — {q['question']}")
         st.caption(f"why_needed: {q.get('why_needed', '')} | priority: {q.get('priority', '')} | status: {q.get('status', '')}")
         key = f"ans_{qid}"
+        if key not in st.session_state and qid in saved_answer_map:
+            st.session_state[key] = saved_answer_map[qid]
         answer_text = st.text_area("Answer", key=key, height=100)
         if st.button(f"Save answer: {qid}", key=f"save_{qid}"):
-            append_answer({"timestamp": datetime.now().isoformat(timespec="seconds"), "type": "question_answer", "question_id": qid, "domain": selected_domain, "module_id": selected_module, "question": q["question"], "answer": answer_text.strip()})
-            st.success(f"Answer saved to {ANSWERS_JSONL_PATH.relative_to(ROOT)}")
+            normalized_answer = answer_text.strip()
+            if not normalized_answer:
+                st.warning("Please enter an answer before saving.")
+            elif answer_already_saved(selected_domain, selected_module, qid, normalized_answer):
+                st.success("Answer saved")
+            else:
+                append_answer({"timestamp": datetime.now().isoformat(timespec="seconds"), "type": "question_answer", "question_id": qid, "domain": selected_domain, "module_id": selected_module, "question": q["question"], "answer": normalized_answer})
+                st.success("Answer saved")
             st.rerun()
 
     st.button("Synchronize & optimize dataset", disabled=True, help="Future step: AI maps answers and user data into existing modules or proposes new clusters.")
