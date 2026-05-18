@@ -1,0 +1,137 @@
+[
+  {
+    "id": "L0_01_life_timeline",
+    "title": "Layer 0.1 — Life Timeline",
+    "layer": 0,
+    "goal": "Create a concise but evidence-rich life timeline with formative periods, turning points, identity shifts and recurring themes.",
+    "output_file": "03_modules/L0_01_life_timeline.md",
+    "review_file": "04_review_questions/L0_01_life_timeline_questions.md",
+    "priority": 1
+  },
+  {
+    "id": "L0_02_major_decisions",
+    "title": "Layer 0.2 — Major Decisions",
+    "layer": 0,
+    "goal": "Map 20–50 important decisions with context, reasoning, fears, outcomes and retrospective lessons.",
+    "output_file": "03_modules/L0_02_major_decisions.md",
+    "review_file": "04_review_questions/L0_02_major_decisions_questions.md",
+    "priority": 2
+  },
+  {
+    "id": "L0_03_success_failure_patterns",
+    "title": "Layer 0.3 — Success & Failure Patterns",
+    "layer": 0,
+    "goal": "Extract repeated success and failure patterns, including conditions under which they appear.",
+    "output_file": "03_modules/L0_03_success_failure_patterns.md",
+    "review_file": "04_review_questions/L0_03_success_failure_patterns_questions.md",
+    "priority": 3
+  },
+  {
+    "id": "L1_01_identity_architecture",
+    "title": "Layer 1.1 — Identity Architecture",
+    "layer": 1,
+    "goal": "Infer stable identity structures from evidence while distinguishing traits, skills, adaptations and narratives.",
+    "output_file": "03_modules/L1_01_identity_architecture.md",
+    "review_file": "04_review_questions/L1_01_identity_architecture_questions.md",
+    "priority": 4
+  },
+  {
+    "id": "L1_02_values_utility_function",
+    "title": "Layer 1.2 — Values & Utility Function",
+    "layer": 1,
+    "goal": "Model what Pierre optimizes for, what he minimizes, trade-offs, constraints and state-dependent value shifts.",
+    "output_file": "03_modules/L1_02_values_utility_function.md",
+    "review_file": "04_review_questions/L1_02_values_utility_function_questions.md",
+    "priority": 5
+  },
+  {
+    "id": "L1_03_meaning_architecture",
+    "title": "Layer 1.3 — Meaning Architecture",
+    "layer": 1,
+    "goal": "Map what feels deeply meaningful, empty, fulfilling or existentially important.",
+    "output_file": "03_modules/L1_03_meaning_architecture.md",
+    "review_file": "04_review_questions/L1_03_meaning_architecture_questions.md",
+    "priority": 6
+  },
+  {
+    "id": "L1_04_moral_integrity_logic",
+    "title": "Layer 1.4 — Moral & Integrity Logic",
+    "layer": 1,
+    "goal": "Map how Pierre determines right/wrong, fairness, ethics, compromise limits and integrity boundaries.",
+    "output_file": "03_modules/L1_04_moral_integrity_logic.md",
+    "review_file": "04_review_questions/L1_04_moral_integrity_logic_questions.md",
+    "priority": 7
+  },
+  {
+    "id": "L1_05_non_negotiables_tension_map",
+    "title": "Layer 1.5–1.6 — Non-Negotiables & Tension Map",
+    "layer": 1,
+    "goal": "Identify must-have/must-not-have conditions and permanent tensions Pierre must navigate.",
+    "output_file": "03_modules/L1_05_non_negotiables_tension_map.md",
+    "review_file": "04_review_questions/L1_05_non_negotiables_tension_map_questions.md",
+    "priority": 8
+  },
+  {
+    "id": "L2_01_cognitive_architecture",
+    "title": "Layer 2.1 — Cognitive Architecture",
+    "layer": 2,
+    "goal": "Map systems thinking, abstraction, pattern recognition, causal/probabilistic reasoning and complexity handling.",
+    "output_file": "03_modules/L2_01_cognitive_architecture.md",
+    "review_file": "04_review_questions/L2_01_cognitive_architecture_questions.md",
+    "priority": 9
+  },
+  {
+    "id": "L2_02_decision_architecture",
+    "title": "Layer 2.2 — Decision Architecture",
+    "layer": 2,
+    "goal": "Model how Pierre makes decisions: intuition/analysis, risk, timing, reversibility, conviction and hesitation.",
+    "output_file": "03_modules/L2_02_decision_architecture.md",
+    "review_file": "04_review_questions/L2_02_decision_architecture_questions.md",
+    "priority": 10
+  },
+  {
+    "id": "L2_03_execution_architecture",
+    "title": "Layer 2.3 — Execution Architecture",
+    "layer": 2,
+    "goal": "Map how Pierre produces results, including flow conditions, blockers, perfectionism and shipping patterns.",
+    "output_file": "03_modules/L2_03_execution_architecture.md",
+    "review_file": "04_review_questions/L2_03_execution_architecture_questions.md",
+    "priority": 11
+  },
+  {
+    "id": "L2_04_state_dynamics",
+    "title": "Layer 2.4 — State Dynamics",
+    "layer": 2,
+    "goal": "Model Pierre's operating states and transitions, including triggers, strengths, weaknesses, risks and exit strategies.",
+    "output_file": "03_modules/L2_04_state_dynamics.md",
+    "review_file": "04_review_questions/L2_04_state_dynamics_questions.md",
+    "priority": 12
+  },
+  {
+    "id": "L2_05_energy_learning_failure_bias",
+    "title": "Layer 2.5–2.8 — Energy, Learning, Failure Modes & Meta-Bias",
+    "layer": 2,
+    "goal": "Map energy economics, learning architecture, anti-self/failure modes, recovery protocols and meta-biases.",
+    "output_file": "03_modules/L2_05_energy_learning_failure_bias.md",
+    "review_file": "04_review_questions/L2_05_energy_learning_failure_bias_questions.md",
+    "priority": 13
+  },
+  {
+    "id": "L4_01_reference_models_seed",
+    "title": "Layer 4 — Reference Models Seed",
+    "layer": 4,
+    "goal": "Create a seed document for MBTI, Big Five, DISC, vocational and complementary lenses with epistemic tiering.",
+    "output_file": "03_modules/L4_01_reference_models_seed.md",
+    "review_file": "04_review_questions/L4_01_reference_models_seed_questions.md",
+    "priority": 14
+  },
+  {
+    "id": "L5_01_qi_human_architecture_seed",
+    "title": "Layer 5 — QI Human Architecture Seed",
+    "layer": 5,
+    "goal": "Create initial WHER/QI mapping of Pierre using only available evidence and clearly marked unknowns.",
+    "output_file": "03_modules/L5_01_qi_human_architecture_seed.md",
+    "review_file": "04_review_questions/L5_01_qi_human_architecture_seed_questions.md",
+    "priority": 15
+  }
+]
