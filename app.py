@@ -226,16 +226,63 @@ def render_questions_page(modules: list[dict], module_lookup: dict[str, dict]) -
 
     answer_file = ANSWERS_DIR / f"{module_id}_answers.md"
     existing_markdown = read_text(answer_file)
+
+    def parse_latest_answers(markdown: str) -> tuple[dict[str, str], str]:
+        if not markdown.strip():
+            return {}, ""
+
+        blocks = [blk.strip() for blk in markdown.split("\n---\n") if blk.strip()]
+        latest = blocks[-1] if blocks else ""
+        lines = latest.splitlines()
+        parsed: dict[str, str] = {}
+        current_question: str | None = None
+        current_answer: list[str] = []
+        mode: str | None = None
+        timestamp_line = ""
+
+        for line in lines:
+            stripped = line.strip()
+            if stripped.startswith("## ") and not timestamp_line:
+                timestamp_line = stripped.removeprefix("## ").strip()
+                continue
+            if stripped == "### Question":
+                if current_question is not None:
+                    parsed[current_question] = "\n".join(current_answer).strip()
+                current_question = None
+                current_answer = []
+                mode = "question"
+                continue
+            if stripped == "### Answer":
+                mode = "answer"
+                continue
+            if mode == "question" and current_question is None and stripped:
+                current_question = stripped
+                continue
+            if mode == "answer":
+                current_answer.append(line)
+
+        if current_question is not None:
+            parsed[current_question] = "\n".join(current_answer).strip()
+        return parsed, timestamp_line
+
+    latest_answers, latest_timestamp = parse_latest_answers(existing_markdown)
     timestamp = datetime.now().isoformat(timespec="seconds")
 
     st.write(f"Loaded {len(questions)} questions from `{question_path.relative_to(ROOT)}`")
     answers: dict[str, str] = {}
     for idx, q in enumerate(questions, start=1):
         key = f"ans_{module_id}_{idx}"
+        if key not in st.session_state:
+            st.session_state[key] = latest_answers.get(q, "")
         answers[q] = st.text_area(f"Q{idx}: {q}", key=key, height=100)
 
     notes_key = f"notes_{module_id}"
+    if notes_key not in st.session_state:
+        st.session_state[notes_key] = latest_answers.get("General notes", "")
     general_notes = st.text_area("General notes", key=notes_key, height=120)
+
+    if latest_timestamp:
+        st.caption(f"Latest saved block: {latest_timestamp}")
 
     if st.button("Save answers"):
         entries: list[str] = [f"# Answers — {module_id}", f"## {timestamp}"]
