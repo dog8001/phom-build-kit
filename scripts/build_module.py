@@ -68,7 +68,7 @@ def main() -> None:
     args = parser.parse_args()
 
     module = find_module(args.module_id)
-    model = os.getenv("PHOM_MODEL", "gpt-5.5-thinking")
+    model = os.getenv("PHOM_MODEL", "gpt-5.5")
 
     if args.dry_run:
         header = f"<!-- Generated: {datetime.now().isoformat(timespec='seconds')} | Module: {module['id']} | Mode: dry-run -->\n\n"

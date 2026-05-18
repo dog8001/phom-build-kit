@@ -1,3 +1,3 @@
 # Review Questions — Layer 0.1 — Life Timeline
 
-No explicit questions extracted. Review module manually.
+- Dry-run mode: no generated questions.
