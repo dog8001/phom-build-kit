@@ -12,12 +12,6 @@ try:
 except ImportError:
     load_dotenv = None
 
-try:
-    from openai import OpenAI
-except ImportError as e:
-    raise SystemExit("Missing dependency: openai. Run: pip install -r requirements.txt") from e
-
-
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -63,7 +57,33 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("module_id", help="Module id from 00_architecture/PHOM_Module_List_v1.json")
     parser.add_argument("--skip-critic", action="store_true", help="Only run builder pass")
+    parser.add_argument("--dry-run", action="store_true", help="Create placeholder module/review outputs without API calls")
     args = parser.parse_args()
+
+    module = find_module(args.module_id)
+    model = os.getenv("PHOM_MODEL", "gpt-5.5-thinking")
+
+    if args.dry_run:
+        header = f"<!-- Generated: {datetime.now().isoformat(timespec='seconds')} | Module: {module['id']} | Mode: dry-run -->\n\n"
+        dry_content = f"""# {module['title']}
+
+## Dry-run placeholder
+
+- **Module ID:** {module['id']}
+- **Goal:** {module['goal']}
+- **Model setting (ignored in dry-run):** {model}
+
+No API call was made. This file confirms wiring and output paths.
+"""
+        write(ROOT / module["output_file"], header + dry_content)
+        write(
+            ROOT / module["review_file"],
+            f"# Review Questions — {module['title']}\n\n- Dry-run mode: no generated questions.\n",
+        )
+        print(f"Dry-run complete for {module['id']}.")
+        print(f"Saved: {module['output_file']}")
+        print(f"Saved: {module['review_file']}")
+        return
 
     if load_dotenv:
         load_dotenv(ROOT / ".env")
@@ -72,10 +92,12 @@ def main() -> None:
     if not api_key:
         raise SystemExit("OPENAI_API_KEY missing. Copy .env.example to .env and add your key.")
 
-    model = os.getenv("PHOM_MODEL", "gpt-5.5-thinking")
-    client = OpenAI(api_key=api_key)
+    try:
+        from openai import OpenAI
+    except ImportError as e:
+        raise SystemExit("Missing dependency: openai. Run: pip install -r requirements.txt") from e
 
-    module = find_module(args.module_id)
+    client = OpenAI(api_key=api_key)
 
     architecture = read(ROOT / "00_architecture" / "PHOM_Architecture_v1.md")
     known_seed = read(ROOT / "01_input" / "Pierre_Known_Context_Seed_v1.md")

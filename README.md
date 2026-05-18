@@ -64,6 +64,20 @@ Optional extra input can be added to:
 python3 scripts/build_module.py L1_01_identity_architecture
 ```
 
+Dry-run (no API call, useful for validating wiring/output paths):
+
+```bash
+python3 scripts/build_module.py L0_01_life_timeline --dry-run
+```
+
+## Local control panel (Streamlit)
+
+```bash
+streamlit run app.py
+```
+
+Safety note: API modes trigger model calls and can incur usage costs. Use `--dry-run` or the dashboard's dry-run mode when testing.
+
 ## Build all first-phase modules
 
 ```bash
