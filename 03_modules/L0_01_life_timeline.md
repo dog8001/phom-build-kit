@@ -1,4 +1,4 @@
-<!-- Generated: 2026-05-18T17:52:24 | Module: L0_01_life_timeline | Mode: dry-run -->
+<!-- Generated: 2026-05-18T17:58:17 | Module: L0_01_life_timeline | Mode: dry-run -->
 
 # Layer 0.1 — Life Timeline
 
