@@ -395,9 +395,9 @@ def render_questions_page(modules: list[dict], module_lookup: dict[str, dict]) -
     selected_domain = ""
     selected_module = ""
     if mode == "Existing domain/module":
-        selected_domain = st.selectbox("domain", domains, key="q_domain") if domains else ""
+        selected_domain = st.selectbox("Life area (domain)", domains, key="q_domain") if domains else ""
         domain_modules = sorted({mid for d, mid in all_pairs if d == selected_domain})
-        selected_module = st.selectbox("module", domain_modules, key="q_module") if domain_modules else ""
+        selected_module = st.selectbox("Focus topic (module)", domain_modules, key="q_module") if domain_modules else ""
     else:
         with st.form("create_domain_module_form", clear_on_submit=True):
             new_domain = st.text_input("new domain")
@@ -454,12 +454,12 @@ def render_questions_page(modules: list[dict], module_lookup: dict[str, dict]) -
         if st.button(f"Save answer: {qid}", key=f"save_{qid}"):
             normalized_answer = answer_text.strip()
             if not normalized_answer:
-                st.warning("Please enter an answer before saving.")
+                st.warning("Cannot save an empty answer. Please enter text before saving.")
             elif answer_already_saved(selected_domain, selected_module, qid, normalized_answer):
-                st.success("Answer saved")
+                st.info("This exact answer is already saved for this question.")
             else:
                 append_answer({"timestamp": datetime.now().isoformat(timespec="seconds"), "type": "question_answer", "question_id": qid, "domain": selected_domain, "module_id": selected_module, "question": q["question"], "answer": normalized_answer})
-                st.success("Answer saved")
+                st.success("Answer saved successfully.")
             st.rerun()
 
     st.button("Synchronize & optimize dataset", disabled=True, help="Future step: AI maps answers and user data into existing modules or proposes new clusters.")
