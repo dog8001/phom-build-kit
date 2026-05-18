@@ -18,6 +18,7 @@ COMPARISON_RUNS_PATH = ROOT / "comparison_runs"
 QUESTIONS_DIR = ROOT / "04_review_questions"
 QUESTION_BANK_DIR = ROOT / "10_question_bank"
 QUESTION_BANK_PATH = QUESTION_BANK_DIR / "question_bank.json"
+USER_DOMAINS_PATH = QUESTION_BANK_DIR / "user_domains.json"
 ANSWERS_DIR = ROOT / "07_answers"
 ANSWERS_JSONL_PATH = ANSWERS_DIR / "answers.jsonl"
 USER_DATASET_DIR = ROOT / "11_user_dataset"
@@ -322,50 +323,102 @@ def append_custom_question(question_bank: list[dict], domain: str, module_id: st
     return new_question
 
 
-def append_user_dataset_entry(domain: str, module_id: str, entry: str) -> None:
-    USER_DATASET_DIR.mkdir(parents=True, exist_ok=True)
-    stamp = datetime.now().isoformat(timespec="seconds")
-    block = f"\n\n## {stamp} | domain={domain} | module={module_id}\n\n{entry.strip()}\n"
-    with USER_DATASET_PATH.open("a", encoding="utf-8") as f:
-        f.write(block)
+def load_user_domains() -> list[dict]:
+    QUESTION_BANK_DIR.mkdir(parents=True, exist_ok=True)
+    if not USER_DOMAINS_PATH.exists():
+        return []
+    try:
+        data = json.loads(USER_DOMAINS_PATH.read_text(encoding="utf-8") or "[]")
+    except json.JSONDecodeError:
+        return []
+    return data if isinstance(data, list) else []
+
+
+def save_user_domains(entries: list[dict]) -> None:
+    QUESTION_BANK_DIR.mkdir(parents=True, exist_ok=True)
+    USER_DOMAINS_PATH.write_text(json.dumps(entries, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
+def append_user_domain_module(domain: str, module_id: str) -> None:
+    entries = load_user_domains()
+    already_exists = any(
+        e.get("domain") == domain and e.get("module_id") == module_id
+        for e in entries
+        if isinstance(e, dict)
+    )
+    if not already_exists:
+        entries.append({
+            "domain": domain,
+            "module_id": module_id,
+            "created_at": datetime.now().isoformat(timespec="seconds"),
+            "source": "user_created",
+        })
+        save_user_domains(entries)
 
 
 def render_questions_page(modules: list[dict], module_lookup: dict[str, dict]) -> None:
     st.header("Questions")
     module_ids = [m["id"] for m in modules]
-    domains = sorted({(m["id"].split("_")[0] if "_" in m["id"] else m["id"]) for m in modules})
+    base_pairs = [((m["id"].split("_")[0] if "_" in m["id"] else m["id"]), m["id"]) for m in modules]
+    user_pairs = [(e.get("domain", ""), e.get("module_id", "")) for e in load_user_domains() if isinstance(e, dict)]
+    all_pairs = sorted({(d.strip(), mid.strip()) for d, mid in (base_pairs + user_pairs) if d and mid})
+    domains = sorted({d for d, _ in all_pairs})
 
     if st.button("Refresh questions and saved answers"):
         st.rerun()
 
     question_bank = load_question_bank(modules)
 
-    selected_domain = st.selectbox("Select domain", domains, key="q_domain")
-    domain_modules = [m for m in module_ids if (m.split("_")[0] if "_" in m else m) == selected_domain]
-    selected_module = st.selectbox("Select module", domain_modules, key="q_module")
+    st.subheader("Question Target")
+    mode = st.radio("Choose target type", ["Existing domain/module", "Create new domain/module"], key="q_target_mode")
 
-    with st.expander("Create custom question", expanded=False):
-        with st.form("create_custom_question_form", clear_on_submit=True):
-            custom_domain = st.text_input("domain", value=selected_domain)
-            custom_module_id = st.text_input("module_id", value=selected_module)
-            custom_question_text = st.text_area("custom question text", height=120)
-            custom_why = st.text_input("why_needed / note (optional)")
-            custom_priority = st.selectbox("priority", ["low", "medium", "high"], index=1)
-            create_custom = st.form_submit_button("Create custom question")
-            if create_custom:
-                if not custom_domain.strip() or not custom_module_id.strip() or not custom_question_text.strip():
-                    st.warning("Please fill domain, module_id, and custom question text.")
+    selected_domain = ""
+    selected_module = ""
+    if mode == "Existing domain/module":
+        selected_domain = st.selectbox("domain", domains, key="q_domain") if domains else ""
+        domain_modules = sorted({mid for d, mid in all_pairs if d == selected_domain})
+        selected_module = st.selectbox("module", domain_modules, key="q_module") if domain_modules else ""
+    else:
+        with st.form("create_domain_module_form", clear_on_submit=True):
+            new_domain = st.text_input("new domain")
+            new_module = st.text_input("new module/theme")
+            create_target = st.form_submit_button("Create domain/module")
+            if create_target:
+                if not new_domain.strip() or not new_module.strip():
+                    st.warning("Please provide both new domain and new module/theme.")
                 else:
-                    new_q = append_custom_question(
-                        question_bank,
-                        custom_domain.strip(),
-                        custom_module_id.strip(),
-                        custom_question_text,
-                        custom_why,
-                        custom_priority,
-                    )
-                    st.success(f"Custom question created and saved to {QUESTION_BANK_PATH.relative_to(ROOT)}: {new_q['question_id']}")
+                    append_user_domain_module(new_domain.strip(), new_module.strip())
+                    st.session_state["q_domain"] = new_domain.strip()
+                    st.session_state["q_module"] = new_module.strip()
+                    st.session_state["q_target_mode"] = "Existing domain/module"
+                    st.success(f"Created target in {USER_DOMAINS_PATH.relative_to(ROOT)}")
                     st.rerun()
+
+    if selected_domain and selected_module:
+        st.info(f"Current target: {selected_domain} → {selected_module}")
+
+        with st.expander("Create custom question", expanded=True):
+            with st.form("create_custom_question_form", clear_on_submit=True):
+                custom_question_text = st.text_area("question", height=120)
+                custom_why = st.text_input("why needed (optional)")
+                custom_priority = st.selectbox("priority", ["low", "medium", "high"], index=1)
+                create_custom = st.form_submit_button("Create custom question")
+                if create_custom:
+                    if not custom_question_text.strip():
+                        st.warning("Please provide a question.")
+                    else:
+                        new_q = append_custom_question(
+                            question_bank,
+                            selected_domain,
+                            selected_module,
+                            custom_question_text,
+                            custom_why,
+                            custom_priority,
+                        )
+                        st.success(f"Custom question created and saved to {QUESTION_BANK_PATH.relative_to(ROOT)}: {new_q['question_id']}")
+                        st.rerun()
+    else:
+        st.warning("Create or select a target domain/module to continue.")
 
     filtered = [q for q in question_bank if q.get("domain") == selected_domain and q.get("module_id") == selected_module]
     st.write(f"Loaded {len(filtered)} questions from `10_question_bank/question_bank.json`")
@@ -380,17 +433,6 @@ def render_questions_page(modules: list[dict], module_lookup: dict[str, dict]) -
             append_answer({"timestamp": datetime.now().isoformat(timespec="seconds"), "type": "question_answer", "question_id": qid, "domain": selected_domain, "module_id": selected_module, "question": q["question"], "answer": answer_text.strip()})
             st.success(f"Answer saved to {ANSWERS_JSONL_PATH.relative_to(ROOT)}")
             st.rerun()
-
-    st.subheader("Add freeform dataset note")
-    manual_text = st.text_area("Add freeform dataset note", key="manual_entry", height=140)
-    if st.button("Save freeform note"):
-        if manual_text.strip():
-            append_user_dataset_entry(selected_domain, selected_module, manual_text)
-            append_answer({"timestamp": datetime.now().isoformat(timespec="seconds"), "type": "manual_entry", "question_id": "manual", "domain": selected_domain, "module_id": selected_module, "question": "manual_entry", "answer": manual_text.strip()})
-            st.success(f"Manual entry saved to {USER_DATASET_PATH.relative_to(ROOT)} and {ANSWERS_JSONL_PATH.relative_to(ROOT)}")
-            st.rerun()
-        else:
-            st.warning("Please enter content before saving.")
 
     st.button("Synchronize & optimize dataset", disabled=True, help="Future step: AI maps answers and user data into existing modules or proposes new clusters.")
 
