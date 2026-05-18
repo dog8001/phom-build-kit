@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import difflib
 import json
 import os
 import subprocess
@@ -12,6 +13,7 @@ import streamlit as st
 ROOT = Path(__file__).resolve().parent
 MODULE_LIST_PATH = ROOT / "00_architecture" / "PHOM_Module_List_v1.json"
 COMPARISON_RUNS_PATH = ROOT / "comparison_runs"
+DOTENV_PATH = ROOT / ".env"
 
 MODE_TO_MODEL = {
     "API low": "gpt-5.5-thinking-low",
@@ -31,6 +33,48 @@ def read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
 
+def parse_dotenv(path: Path) -> dict[str, str]:
+    values: dict[str, str] = {}
+    if not path.exists():
+        return values
+    for line in path.read_text(encoding="utf-8").splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#") or "=" not in stripped:
+            continue
+        key, value = stripped.split("=", 1)
+        values[key.strip()] = value.strip()
+    return values
+
+
+def upsert_dotenv(path: Path, key: str, value: str) -> None:
+    lines = path.read_text(encoding="utf-8").splitlines() if path.exists() else []
+    updated = False
+    out: list[str] = []
+    for line in lines:
+        stripped = line.strip()
+        if stripped and not stripped.startswith("#") and "=" in line:
+            existing_key = line.split("=", 1)[0].strip()
+            if existing_key == key:
+                out.append(f"{key}={value}")
+                updated = True
+                continue
+        out.append(line)
+    if not updated:
+        out.append(f"{key}={value}")
+    path.write_text("\n".join(out).rstrip() + "\n", encoding="utf-8")
+
+
+def get_latest_generated_module(modules: list[dict]) -> str:
+    latest_path: Path | None = None
+    latest_name = "None"
+    for module in modules:
+        output_path = ROOT / module["output_file"]
+        if output_path.exists() and (latest_path is None or output_path.stat().st_mtime > latest_path.stat().st_mtime):
+            latest_path = output_path
+            latest_name = module["id"]
+    return latest_name
+
+
 def get_latest_log(module_id: str, suffix: str) -> Path | None:
     candidates = sorted((ROOT / "06_logs").glob(f"{module_id}*{suffix}"), key=lambda p: p.stat().st_mtime, reverse=True)
     return candidates[0] if candidates else None
@@ -38,7 +82,7 @@ def get_latest_log(module_id: str, suffix: str) -> Path | None:
 
 def list_compare_files() -> list[Path]:
     files: list[Path] = []
-    for folder in [COMPARISON_RUNS_PATH, ROOT / "03_modules"]:
+    for folder in [ROOT / "03_modules", COMPARISON_RUNS_PATH]:
         if folder.exists():
             files.extend(sorted(folder.glob("*.md")))
     return files
@@ -51,10 +95,24 @@ def run_build(module_id: str, mode: str) -> tuple[int, str, str]:
     if mode == "dry-run":
         cmd.append("--dry-run")
     else:
-        env["PHOM_MODEL"] = MODE_TO_MODEL[mode]
+        model_name = MODE_TO_MODEL[mode]
+        upsert_dotenv(DOTENV_PATH, "PHOM_MODEL", model_name)
+        env["PHOM_MODEL"] = model_name
 
     proc = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, env=env)
     return proc.returncode, proc.stdout, proc.stderr
+
+
+def unified_diff(a: str, b: str, a_label: str, b_label: str) -> str:
+    return "\n".join(
+        difflib.unified_diff(
+            a.splitlines(),
+            b.splitlines(),
+            fromfile=a_label,
+            tofile=b_label,
+            lineterm="",
+        )
+    )
 
 
 def main() -> None:
@@ -77,23 +135,30 @@ def main() -> None:
     with tab_dashboard:
         built = [m for m in modules if (ROOT / m["output_file"]).exists()]
         missing = [m for m in modules if not (ROOT / m["output_file"]).exists()]
+        compare_files = list_compare_files()
 
-        c1, c2, c3 = st.columns(3)
-        c1.metric("Module count", len(modules))
-        c2.metric("Built modules", len(built))
+        c1, c2, c3, c4, c5 = st.columns(5)
+        c1.metric("Total module count", len(modules))
+        c2.metric("Completed modules", len(built))
         c3.metric("Missing modules", len(missing))
-
-        st.subheader("Built")
-        st.write([m["id"] for m in built] or "None")
-        st.subheader("Missing")
-        st.write([m["id"] for m in missing] or "None")
+        c4.metric("Latest generated module", get_latest_generated_module(modules))
+        c5.metric("Comparison runs available", len(compare_files))
 
     with tab_build:
         st.subheader("Selected module metadata")
         st.json(selected_module)
-        if st.button("Run build", type="primary"):
-            with st.spinner(f"Running {selected_mode} for {selected_module_id}..."):
-                code, stdout, stderr = run_build(selected_module_id, selected_mode)
+        st.write(f"**Selected reasoning mode:** `{selected_mode}`")
+
+        col1, col2 = st.columns(2)
+        run_action = None
+        if col1.button("Build module", type="primary"):
+            run_action = selected_mode if selected_mode != "dry-run" else "API medium"
+        if col2.button("Dry run"):
+            run_action = "dry-run"
+
+        if run_action:
+            with st.spinner(f"Running {run_action} for {selected_module_id}..."):
+                code, stdout, stderr = run_build(selected_module_id, run_action)
             st.caption("Command output")
             st.code(stdout or "<no stdout>")
             if stderr:
@@ -103,10 +168,12 @@ def main() -> None:
             else:
                 st.error(f"Build failed (exit code {code}).")
 
-        st.info("API key is read from your local environment/.env by scripts/build_module.py and is never displayed here.")
+        env_values = parse_dotenv(DOTENV_PATH)
+        st.caption(f"Current PHOM_MODEL in .env: `{env_values.get('PHOM_MODEL', '(unset)')}`")
+        st.info("No API keys are shown or required in this UI.")
 
     with tab_review:
-        st.subheader("Generated module markdown")
+        st.subheader("Module markdown")
         module_md = read_text(ROOT / selected_module["output_file"])
         st.text_area("Module output", value=module_md or "No module output found.", height=240)
 
@@ -139,8 +206,12 @@ def main() -> None:
             right_text = read_text(ROOT / right_label)
 
             c1, c2 = st.columns(2)
-            c1.text_area(f"A: {left_label}", value=left_text, height=400)
-            c2.text_area(f"B: {right_label}", value=right_text, height=400)
+            c1.text_area(f"A: {left_label}", value=left_text, height=320)
+            c2.text_area(f"B: {right_label}", value=right_text, height=320)
+
+            st.subheader("Basic text diff")
+            diff_text = unified_diff(left_text, right_text, left_label, right_label)
+            st.code(diff_text or "No differences.", language="diff")
 
 
 if __name__ == "__main__":
